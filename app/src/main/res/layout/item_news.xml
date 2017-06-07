@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+          android:layout_width="match_parent"
+                android:background="@android:color/white"
+          android:layout_height="72dp">
+    <ImageView
+        android:id="@+id/iv_news_icon"
+        android:padding="16dp"
+        android:layout_width="72dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+    <TextView
+        android:paddingTop="16dp"
+        android:id="@+id/tv_news_title"
+        android:paddingLeft="72dp"
+        android:textSize="16dp"
+        android:textColor="#333333"
+        android:singleLine="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="生成多种类型的JavaScript列表"/>
+    <TextView
+        android:layout_below="@id/tv_news_title"
+        android:id="@+id/tv_news_update_time"
+        android:paddingLeft="72dp"
+        android:textSize="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2017年4月25日"
+        android:paddingBottom="10dp"/>
+
+
+</RelativeLayout>
