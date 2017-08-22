@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void getData(NewsList newsList) throws RemoteException {
             Toast.makeText(MainActivity.this, newsList.getResult().get(0).getNews_title(), Toast.LENGTH_SHORT).show();
+            mAdapter.resetAll(newsList.getResult());
         }
     };
     ServiceConnection serviceconnection = new ServiceConnection() {

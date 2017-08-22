@@ -3,6 +3,7 @@ package com.cfm880.learnipc.datasource;
 import com.cfm880.learnipc.IPCApplication;
 import com.cfm880.learnipc.datasource.api.UpdateService;
 import com.cfm880.learnipc.datasource.auxiliary.APIConstant;
+import com.cfm880.learnipc.datasource.intercepter.NoCacheIntercepter;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.io.File;
@@ -10,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.internal.cache.CacheInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -47,16 +49,15 @@ public class RetrofitHelper {
         if (mOkHttpClient == null) {
             synchronized (RetrofitHelper.class) {
                 if (mOkHttpClient == null) {
-                    //设置Http缓存
-                    Cache cache = new Cache(new File(IPCApplication.getInstance()
-                            .getCacheDir(), "HttpCache"), 1024 * 1024 * 10);
+//                                   //设置Http缓存
+//                    Cache cache = new Cache(new File(IPCApplication.getInstance()
+//                            .getCacheDir(), "HttpCache"), 0);
 
                     if (APIConstant.APP_DEBUG) {
                         mOkHttpClient = new OkHttpClient.Builder()
-                                .cache(cache)
+                                .cache(null)
 //                                .addInterceptor(new UrlInterceptor()) // 添加头和平台参数
                                 .addInterceptor(interceptor)          // 缓存
-//                                .addInterceptor(new AddResponseHeaderInterceptor(cache))
                                 .addNetworkInterceptor(new StethoInterceptor())
                                 .retryOnConnectionFailure(true)
                                 .connectTimeout(30, TimeUnit.SECONDS)
@@ -65,7 +66,7 @@ public class RetrofitHelper {
                                 .build();
                     } else {
                         mOkHttpClient = new OkHttpClient.Builder()
-                                .cache(cache)
+                                .cache(null)
 //                                .addInterceptor(new UrlInterceptor()) // 添加头和平台参数
 //                                .addInterceptor(new AddResponseHeaderInterceptor(cache))
                                 .retryOnConnectionFailure(true)
