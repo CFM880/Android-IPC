@@ -9,7 +9,10 @@ import android.util.Log;
 import com.cfm880.learnipc.datasource.RetrofitHelper;
 import com.cfm880.learnipc.datasource.entity.NewsList;
 
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,11 +24,8 @@ public class MyService extends Service {
 
 
     private CopyOnWriteArrayList<ICallback> mListenerList = new CopyOnWriteArrayList<>();
+    private AtomicBoolean mIsDestroy = new AtomicBoolean(false);
 
-
-    public MyService getMyService(){
-        return this;
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -73,5 +73,29 @@ public class MyService extends Service {
 
 
     };
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Timer timer = new Timer("hh");
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    mBinder.getLastNews();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 0, 5000);
+    }
+
+    @Override
+    public void onDestroy() {
+
+        mIsDestroy.set(true);
+        System.out.println("onDestroy");
+        super.onDestroy();
+    }
 
 }

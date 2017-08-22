@@ -24,6 +24,13 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.NewsViewHo
     public NewsRVAdapter(List<News> list) {
         mList = list;
     }
+    private RecyclerView mRecyclerView;
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
 
     @Override
     public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,5 +61,15 @@ public class NewsRVAdapter extends RecyclerView.Adapter<NewsRVAdapter.NewsViewHo
             tvNewsTitle = (TextView) itemView.findViewById(R.id.tv_news_title);
             tvNewsTime = (TextView) itemView.findViewById(R.id.tv_news_update_time);
         }
+    }
+
+    public void resetAll(final List<News> list){
+        mRecyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                mList = list;
+                notifyDataSetChanged();
+            }
+        });
     }
 }

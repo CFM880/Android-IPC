@@ -73,10 +73,42 @@ public class MainActivity extends AppCompatActivity {
             }
         }, BIND_AUTO_CREATE);
     }
+    @Override
+    protected void onDestroy() {
+        mService = null;
+        unbindService(serviceconnection);
+        super.onDestroy();
+
+    }
     ICallback.Stub mCallback = new ICallback.Stub() {
         @Override
         public void getData(NewsList newsList) throws RemoteException {
             Toast.makeText(MainActivity.this, newsList.getResult().get(0).getNews_title(), Toast.LENGTH_SHORT).show();
+        }
+    };
+    ServiceConnection serviceconnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mService = IPullingService.Stub.asInterface(service);
+            try {
+                mService.getLastNews();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+            try {
+                mService.registerListener(mCallback);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            try {
+                mService.unregisterListener(mCallback);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
     };
 
