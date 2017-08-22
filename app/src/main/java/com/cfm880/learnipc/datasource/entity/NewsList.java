@@ -1,5 +1,8 @@
 package com.cfm880.learnipc.datasource.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.cfm880.learnipc.datasource.entity.item.News;
 
 import java.util.List;
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by chengfangming on 2017/6/7.
  */
 
-public class NewsList {
+public class NewsList implements Parcelable {
 
 
     /**
@@ -20,6 +23,23 @@ public class NewsList {
     private int code;
     private String message;
     private List<News> result;
+
+    protected NewsList(Parcel in) {
+        code = in.readInt();
+        message = in.readString();
+    }
+
+    public static final Creator<NewsList> CREATOR = new Creator<NewsList>() {
+        @Override
+        public NewsList createFromParcel(Parcel in) {
+            return new NewsList(in);
+        }
+
+        @Override
+        public NewsList[] newArray(int size) {
+            return new NewsList[size];
+        }
+    };
 
     public int getCode() {
         return code;
@@ -45,4 +65,14 @@ public class NewsList {
         this.result = result;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(code);
+        dest.writeString(message);
+    }
 }

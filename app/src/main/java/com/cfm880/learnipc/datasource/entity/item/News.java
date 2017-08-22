@@ -1,10 +1,13 @@
 package com.cfm880.learnipc.datasource.entity.item;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by chengfangming on 2017/6/7.
  */
 
-public class News {
+public class News implements Parcelable{
     /**
      * news_title : 四个Webix实例：生成多种类型的JavaScript列表
      * news_image_url : http://cdn4.infoqstatic.com/statics_s1_20170606-0324u2/resource/articles/javascript-lists-with-webix/zh/smallimage/logo2.jpeg
@@ -16,6 +19,25 @@ public class News {
     private String news_image_url;
     private String news_update_time;
     private String news_url;
+
+    protected News(Parcel in) {
+        news_title = in.readString();
+        news_image_url = in.readString();
+        news_update_time = in.readString();
+        news_url = in.readString();
+    }
+
+    public static final Creator<News> CREATOR = new Creator<News>() {
+        @Override
+        public News createFromParcel(Parcel in) {
+            return new News(in);
+        }
+
+        @Override
+        public News[] newArray(int size) {
+            return new News[size];
+        }
+    };
 
     public String getNews_title() {
         return news_title;
@@ -47,5 +69,18 @@ public class News {
 
     public void setNews_url(String news_url) {
         this.news_url = news_url;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(news_title);
+        dest.writeString(news_image_url);
+        dest.writeString(news_update_time);
+        dest.writeString(news_url);
     }
 }

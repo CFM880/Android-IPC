@@ -7,7 +7,7 @@ import com.cfm880.learnipc.BuildConfig;
  */
 
 public class APIConstant {
-    public static final String HOST = "http://192.168.8.102:8080";
+    public static final String HOST = "http://192.168.8.101:8080";
 
 
     public static final boolean APP_DEBUG = BuildConfig.APP_DEBUG;
